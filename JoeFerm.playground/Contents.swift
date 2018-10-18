@@ -6,6 +6,7 @@ var str = "Hello, Jojo"
 
 
 
+// A vous de jouer
 
 //======================
 // MARK: - Parameters
@@ -33,21 +34,39 @@ func sell() {
     barn = ["milk": 0, "wheat": 0, "wool": 0]
 }
 
-func milkCows() {
-    barn["milk"]! += 30
+
+func milkCows(retrieving quantity: Int) {
+    barn["milk"]! += quantity
 }
 
-func harvest() {
-    barn["wheat"]! += 100
+func harvest(retrieving quantity: Int) {
+    barn["wheat"]! += quantity
 }
 
-func mowSheep() {
-    barn["wool"]! += 30
+func mowSheep(retrieving quantity: Int) {
+    barn["wool"]! += quantity
 }
 
 //======================
 // MARK: - Conversation
 //======================
+
+func readQuantity(of type: String) -> Int? {
+    // On demande la quantité désirée
+    print("Combien de \(type)  avez vous récupéré ?")
+    
+    // On convertie et on renvoie la réponse
+    if let line = readLine() {
+        if let quantity = Int(line) {
+            return quantity
+        }
+    }
+    
+    // Si la valeur n'a pas pu être interprétée, on le dit
+    print("Je n'ai pas compris.")
+    
+    return nil
+}
 
 func addNewActivity() {
     print("Qu’avez-vous fait aujourd'hui?"
@@ -65,11 +84,17 @@ func addNewActivity() {
         case "2": // Vendre les produits
             sell()
         case "3": // Traire les vaches
-            milkCows()
+            if let quantity = readQuantity(of: "🍼") {
+                milkCows(retrieving: quantity)
+            }
         case "4": // Moissonner
-            harvest()
+            if let quantity = readQuantity(of: "🌾") {
+                harvest(retrieving: quantity)
+            }
         case "5": // Tondre les moutons
-            mowSheep()
+            if let quantity = readQuantity(of: "⚪️") {
+                mowSheep(retrieving: quantity)
+            }
         default:
             print("Je ne comprends pas")
         }
@@ -80,7 +105,7 @@ func addNewActivity() {
 
 func presentMenu() {
     print("Que voulez vous faire ?"
-        + "\n1. 🤸  Enregistrer une nouvelle activité"
+        + "\n1. 🤸‍♂️  Enregistrer une nouvelle activité"
         + "\n2. 🏦  Consulter ma banque"
         + "\n3. 🏠  Consulter ma grange")
     
@@ -95,7 +120,7 @@ func presentMenu() {
             print("Votre grange contient :"
                 + "\n🍼  \(barn["milk"]!) bidons de lait"
                 + "\n🌾  \(barn["wheat"]!) bottes de blé"
-                + "\n⚪️  \(barn["wool"]!) pelottes de laine")
+                + "\n⚪️  \(barn["wool"]!) pelotes de laine")
         default:
             print("Je ne comprends pas")
         }
@@ -104,5 +129,5 @@ func presentMenu() {
 
 // La boucle du programme
 //while true {
- //   presentMenu()
+//    presentMenu()
 //}
